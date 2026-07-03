@@ -1,0 +1,8 @@
+.DS_Store
+*.log
+verification/
+build/
+install/
+logs/
+*.tar.gz
+

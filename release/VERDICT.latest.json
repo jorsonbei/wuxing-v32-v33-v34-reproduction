@@ -1,0 +1,78 @@
+{
+  "route": "PO10B_OneCommandPublicVerifier",
+  "generated_at": "2026-07-03T07:33:21.620055+00:00",
+  "verdict_passed": true,
+  "state": {
+    "fit_run": false,
+    "mcmc_run": false,
+    "external_target_read": false,
+    "physics_formula_changed": false,
+    "physics_parameter_tuning": false,
+    "new_physics_claim_allowed": false
+  },
+  "gates": {
+    "all_phases_exit_zero": true,
+    "v32_assertions_passed": true,
+    "v33_engine_forward_closure": true,
+    "v34_higgs_engine_forward_closure": true,
+    "v34_flavour_strict_closure": true,
+    "po09r_exact_source_reproduction": true,
+    "po09w_end_to_end_seal": true,
+    "po09x_clean_clone_determinism": null,
+    "po11_layered_verifier": true,
+    "po11c_extended_layered_verifier": true
+  },
+  "phases": [
+    {
+      "phase": "build_rgesolver",
+      "exit_code": 0,
+      "started_at": "2026-07-03T07:23:05Z",
+      "finished_at": "2026-07-03T07:23:53Z",
+      "log_path": "/work/verification/build_rgesolver.log"
+    },
+    {
+      "phase": "build_hepfit_engine_forward",
+      "exit_code": 0,
+      "started_at": "2026-07-03T07:23:53Z",
+      "finished_at": "2026-07-03T07:32:10Z",
+      "log_path": "/work/verification/build_hepfit_engine_forward.log"
+    },
+    {
+      "phase": "compile_po09q_engine_forward",
+      "exit_code": 0,
+      "started_at": "2026-07-03T07:32:10Z",
+      "finished_at": "2026-07-03T07:32:21Z",
+      "log_path": "/work/verification/compile_po09q_engine_forward.log"
+    },
+    {
+      "phase": "po09w_seal",
+      "exit_code": 0,
+      "started_at": "2026-07-03T07:32:21Z",
+      "finished_at": "2026-07-03T07:33:21Z",
+      "log_path": "/work/verification/po09w_seal.log"
+    },
+    {
+      "phase": "po11_layered_verifier",
+      "exit_code": 0,
+      "started_at": "2026-07-03T07:33:21Z",
+      "finished_at": "2026-07-03T07:33:21Z",
+      "log_path": "/work/verification/po11_layered_verifier.log"
+    },
+    {
+      "phase": "po11c_extended_layered_verifier",
+      "exit_code": 0,
+      "started_at": "2026-07-03T07:33:21Z",
+      "finished_at": "2026-07-03T07:33:21Z",
+      "log_path": "/work/verification/po11c_extended_layered_verifier.log"
+    }
+  ],
+  "reports": {
+    "v32_assertions": "/work/reports/v32_assertions.json",
+    "po09q": "/work/engine_forward/PO09Q_V33V34EngineForward_Report.json",
+    "po09r": "/work/root_cause/PO09R_V34FlavourExactSourceDriftRootCause/PO09R_V34FlavourExactSourceDriftRootCause_Report.json",
+    "po09w": "/work/root_cause/PO09W_V33V34EndToEndThirdPartyReproductionSeal_NoPhysicsChange/PO09W_V33V34EndToEndThirdPartyReproductionSeal_NoPhysicsChange_Report.json",
+    "po09x": null,
+    "po11": "/work/layered_verifier/PO11_ExtendBeyondV33V34_Report.json",
+    "po11c": "/work/layered_verifier/PO11C_ExtendedLayeredVerifier_Report.json"
+  }
+}

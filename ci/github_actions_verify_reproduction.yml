@@ -1,0 +1,29 @@
+name: PO10 Reproduction Verify
+
+on:
+  workflow_dispatch:
+
+jobs:
+  verify-reproduction:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify reproduction
+        run: |
+          chmod +x ./ci_verify_reproduction.sh
+          VERIFY_CLEAN_CLONE=0 JOBS=2 ./ci_verify_reproduction.sh
+
+      - name: Upload verifier artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: po10-verification
+          path: |
+            verification/VERDICT.json
+            verification/FAILURE_LOCALIZATION_MATRIX.json
+            verification/*.log
+            layered_verifier/*.json
+            layered_verifier/*.md

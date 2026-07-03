@@ -1,0 +1,112 @@
+{
+  "route": "PO11C_ExtendedLayeredVerifier",
+  "generated_at": "2026-07-03T06:44:31.338383+00:00",
+  "extended_layered_verifier_passed": true,
+  "hard_source_reproduction_passed": true,
+  "registered_reference_sources_present": true,
+  "state": {
+    "fit_run": false,
+    "mcmc_run": false,
+    "external_target_read": false,
+    "physics_formula_changed": false,
+    "physics_parameter_tuning": false,
+    "new_physics_claim_allowed": false
+  },
+  "layers": {
+    "L0_hard_source_reproduction": [
+      {
+        "layer_id": "V32_HEPfitWhiteBoxAndMwSchemeSweep",
+        "passed": true,
+        "source": "reports/v32_assertions.json",
+        "scope": "V32 HEPfit white-box probes, DeltaR scheme lock, blind Mw scheme sweep."
+      },
+      {
+        "layer_id": "V33_EWPOForwardVectorAndCovariance",
+        "passed": true,
+        "source": "engine_forward/PO09Q_V33V34EngineForward_Report.json",
+        "scope": "V33 EWPO global vector and covariance forward closure."
+      },
+      {
+        "layer_id": "V34_HiggsForwardClosure",
+        "passed": true,
+        "source": "engine_forward/PO09Q_V33V34EngineForward_Report.json",
+        "scope": "V34 Higgs minimal non-EWPO court forward closure."
+      },
+      {
+        "layer_id": "V34_FlavourC9ExactSourceClosure",
+        "passed": true,
+        "source": "root_cause/PO09R_V34FlavourExactSourceDriftRootCause/PO09R_V34FlavourExactSourceDriftRootCause_Report.json",
+        "scope": "V34 Flavour C9_22 isolated cavity exact-source repeated raw closure."
+      },
+      {
+        "layer_id": "EndToEndBoundarySeal",
+        "passed": true,
+        "source": "root_cause/PO09W_V33V34EndToEndThirdPartyReproductionSeal_NoPhysicsChange/PO09W_V33V34EndToEndThirdPartyReproductionSeal_NoPhysicsChange_Report.json",
+        "scope": "No fit, no MCMC, no external target read, no physics-parameter tuning seal."
+      }
+    ],
+    "L1_registered_ledger_and_failure_boundaries": [
+      {
+        "layer_id": "P83_L1_MetricSplitInvariantAudit",
+        "passed": true,
+        "reproduction_layer": "L1_registered_ledger",
+        "status": "registered_reference_only",
+        "source": "local-evidence/HFCD_RUN_OUTPUTS/20260601_145147_HFCD_V32_022_P83_L1MetricSplitInvariantAudit_NoTargetRead/HFCD_V32_022_P83_L1MetricSplitInvariantAudit_Report.json",
+        "closure_type": "ledger_reference",
+        "scope": "Q_P83 = Q_base + B_thick P_buffer + S_shear K_shear; positive-definite, condition, Q-energy, hidden/shear orthogonality.",
+        "boundary": "L1 internal closure only; not external equivalence."
+      },
+      {
+        "layer_id": "P83_OrthogonalOblique_L1Extension",
+        "passed": true,
+        "reproduction_layer": "L1_registered_ledger",
+        "status": "registered_reference_only",
+        "source": "local-evidence/HFCD_RUN_OUTPUTS/20260601_152749_HFCD_V32_027B_P83_OrthogonalBasisRevision_NoRun/HFCD_V32_027B_P83_OrthogonalBasisRevision_Report.json",
+        "closure_type": "ledger_reference",
+        "scope": "Gram-Schmidt order Buffer -> T_shear -> U_shear -> S_guarded; pairwise Frobenius orthogonality.",
+        "boundary": "NoTargetRead; no visible mass calculation in L1 audit."
+      },
+      {
+        "layer_id": "P84_WZ_TailGuard",
+        "passed": true,
+        "reproduction_layer": "L2_report_reference",
+        "status": "registered_failure_boundary",
+        "source": "local-evidence/BSM_P84_006_L2_Ignition_Report.json",
+        "closure_type": "failure_boundary",
+        "scope": "WZ manifestation interface Tail Guard; partial tail suppression with correlation side effect.",
+        "boundary": "Semi-success; not promoted as full closure."
+      },
+      {
+        "layer_id": "P85_ModeImpedanceAndInitialHorizon",
+        "passed": true,
+        "reproduction_layer": "L1_L2_report_reference",
+        "status": "registered_reference_only",
+        "source": "local-evidence/HFCD_RUN_OUTPUTS/20260601_002511_BSM_P85_010_ModeImpedanceL2Ignition_NoBackfit/BSM_P85_010_ModeImpedanceL2Ignition_Report.json",
+        "closure_type": "ledger_reference",
+        "scope": "D_mode = 1/(1+x^2), J_vac_mode_limited, J_mode_buffer dark-cavity routing.",
+        "boundary": "NoBackfit; L1 parameters locked before L2."
+      },
+      {
+        "layer_id": "P86_DualCapacityGateL1Fuse",
+        "passed": true,
+        "reproduction_layer": "L1_report_reference",
+        "status": "registered_fused_before_L2",
+        "source": "book-canon/Book2_HFCD_实验整合版_FINAL_v2.md",
+        "closure_type": "failure_boundary",
+        "scope": "wz_risk/core_risk capacity gate; L1 risk distribution failed and L2 was not authorized.",
+        "boundary": "Successful failure: no L2 ignition."
+      },
+      {
+        "layer_id": "V35_P83RiskSourceCandidate_L1Audit",
+        "passed": true,
+        "reproduction_layer": "L1_report_reference",
+        "status": "frontier_not_in_hard_release",
+        "source": "local-evidence/HFCD_RUN_OUTPUTS/20260702_132000_HFCD_V35_001E_P83RiskSourceCandidateL1Audit_NoTargetRead/V35_001E_P83RiskSourceCandidateL1Audit_Report.json",
+        "closure_type": "active_frontier",
+        "scope": "P83/P86 successor risk-source audit; not yet part of hard public reproduction bundle.",
+        "boundary": "NoTargetRead frontier; not an external equivalence claim."
+      }
+    ]
+  },
+  "boundary": "L0 layers are executable source-rebuild claims. L1/L2 historical layers are registered source-presence and boundary claims unless promoted by a future executable replay script."
+}

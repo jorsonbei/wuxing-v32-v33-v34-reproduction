@@ -1,0 +1,16 @@
+{
+  "route": "PO10H_ReproductionVisualDashboard",
+  "generated_at": "2026-07-03T07:21:48.783061+00:00",
+  "dashboard_created": true,
+  "dashboard_index": "dashboard/index.html",
+  "dashboard_data": "dashboard/reproduction_data.js",
+  "concept_asset": "dashboard/assets/dashboard_concept.png",
+  "state": {
+    "fit_run": false,
+    "mcmc_run": false,
+    "external_target_read": false,
+    "physics_formula_changed": false,
+    "physics_parameter_tuning": false,
+    "new_physics_claim_allowed": false
+  }
+}

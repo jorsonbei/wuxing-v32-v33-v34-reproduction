@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wuxing Reproduction Lab</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="mark">W</div>
+        <div>
+          <strong>Wuxing</strong>
+          <span>Reproduction Lab</span>
+        </div>
+      </div>
+      <nav>
+        <a href="#overview" class="active">Overview</a>
+        <a href="#replay">Replay</a>
+        <a href="#layers">Layers</a>
+        <a href="#inventory">Inventory</a>
+        <a href="#failures">Failures</a>
+        <a href="#manifest">Manifest</a>
+        <a href="#runbook">Runbook</a>
+      </nav>
+      <div class="side-note">
+        <span>Boundary</span>
+        <strong>No Fit · No MCMC · No Target</strong>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div>
+          <h1>Wuxing Reproduction Lab</h1>
+          <p>V32 / V33 / V34 hard-source reproduction package dashboard</p>
+        </div>
+        <div class="top-actions">
+          <button id="copy-command">Copy Verify Command</button>
+          <a class="ghost" href="./README.md">Dashboard README</a>
+        </div>
+      </header>
+
+      <section id="overview" class="grid overview-grid">
+        <article class="hero-card">
+          <div class="hero-status">
+            <span id="status-dot"></span>
+            <div>
+              <div class="label">VERDICT</div>
+              <strong id="verdict-title">Loading</strong>
+            </div>
+          </div>
+          <p id="verdict-copy"></p>
+          <div id="guard-badges" class="badges"></div>
+          <div class="sha-box">
+            <span>Release SHA256</span>
+            <code id="release-sha"></code>
+          </div>
+        </article>
+
+        <article class="command-card" id="runbook">
+          <div class="card-head">
+            <h2>One-command replay</h2>
+            <span>third-party path</span>
+          </div>
+          <pre><code id="one-command"></code></pre>
+          <div class="mini-grid">
+            <button class="copy-mini" data-copy="fast_check">Fast check</button>
+            <button class="copy-mini" data-copy="ci_check">CI check</button>
+            <button class="copy-mini" data-copy="serve_dashboard">Serve UI</button>
+          </div>
+        </article>
+
+        <article class="metric-card">
+          <span>Archive size</span>
+          <strong id="archive-size"></strong>
+          <p>最小可复现包，保留源码、reference、脚本、CI 与分层清单。</p>
+        </article>
+
+        <article class="metric-card">
+          <span>Manifest files</span>
+          <strong id="file-count"></strong>
+          <p>文件数来自 release manifest，用于判断包是否完整。</p>
+        </article>
+      </section>
+
+      <section id="replay" class="panel">
+        <div class="section-head">
+          <h2>External Replay Timeline</h2>
+          <p>展示从 release tarball 外部解包到 verifier PASS 的过程。</p>
+        </div>
+        <div id="phase-timeline" class="timeline"></div>
+      </section>
+
+      <section id="layers" class="panel">
+        <div class="section-head">
+          <h2>Layered Verifier</h2>
+          <p>L0 是可执行源码复现；L1/L2 是历史清单和失败边界注册，不伪装成源码复现。</p>
+        </div>
+        <div id="layer-cards" class="layer-grid"></div>
+      </section>
+
+      <section id="inventory" class="panel">
+        <div class="section-head">
+          <h2>Historical Closure Inventory</h2>
+          <p>Book2/Book3 历史闭合、失败边界和前沿节点的分层纳入清单。</p>
+        </div>
+        <div class="filters">
+          <input id="inventory-search" placeholder="搜索 P83 / V34 / failure / source_rebuild">
+          <select id="inventory-layer">
+            <option value="all">All layers</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Experiment</th><th>Layer</th><th>Status</th><th>Closure</th><th>Source</th></tr>
+            </thead>
+            <tbody id="inventory-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="failures" class="grid two-col">
+        <article class="panel">
+          <div class="section-head">
+            <h2>Failure Localization</h2>
+            <p>如果复现失败，先看这里定位问题层级。</p>
+          </div>
+          <div id="failure-class" class="failure-pass"></div>
+          <div id="failure-categories" class="category-list"></div>
+        </article>
+        <article class="panel">
+          <div class="section-head">
+            <h2>Boundary Guards</h2>
+            <p>复现包的防回填边界。</p>
+          </div>
+          <div id="boundary-list" class="guard-list"></div>
+        </article>
+      </section>
+
+      <section id="manifest" class="panel">
+        <div class="section-head">
+          <h2>Manifest Anatomy</h2>
+          <p>Release 包内部结构和最小化策略。</p>
+        </div>
+        <div id="manifest-groups" class="bars"></div>
+      </section>
+    </main>
+  </div>
+  <div id="toast" class="toast">Copied</div>
+  <script src="./reproduction_data.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
