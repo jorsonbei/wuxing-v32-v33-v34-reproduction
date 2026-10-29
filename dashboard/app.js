@@ -1,4 +1,9 @@
 const data = window.REPRO_DATA;
+const { t, language } = window.REPLAY_I18N;
+const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const translatedId = value => language === 'zh' && t(value) !== value
+  ? `${esc(t(value))}<small class="raw-id">${esc(value)}</small>` : esc(value);
+const boundaryLabel = value => { const [key, state] = value.split('='); return `${t(key)}：${t(state)}`; };
 
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => Array.from(document.querySelectorAll(sel));
@@ -10,7 +15,7 @@ const fmtBytes = (n) => {
   while (value >= 1024 && i < units.length - 1) { value /= 1024; i += 1; }
   return `${value.toFixed(i === 0 ? 0 : 1)} ${units[i]}`;
 };
-const showToast = (text = "Copied") => {
+const showToast = (text = t("Copied")) => {
   const toast = $("#toast");
   toast.textContent = text;
   toast.classList.add("show");
@@ -20,24 +25,24 @@ const displayId = (value) => String(value || "").replaceAll("_", "_\u200b");
 const copyText = async (text) => {
   try {
     await navigator.clipboard.writeText(text);
-    showToast("Copied");
+    showToast(t("Copied"));
   } catch {
-    showToast("Copy failed");
+    showToast(t("Copy failed"));
   }
 };
 
 function renderOverview() {
   const passed = data.verdict.verdict_passed;
-  $("#verdict-title").textContent = passed ? "VERDICT PASS" : "VERDICT FAIL";
+  $("#verdict-title").textContent = passed ? t("VERDICT PASS") : t("VERDICT FAIL");
   $("#status-dot").style.background = passed ? "var(--green)" : "var(--red)";
   $("#verdict-copy").textContent = passed
-    ? "第三方可从 release 包重建核心物理引擎并复现 V32/V33/V34 的内部闭合。历史实验层被分离为注册清单，不伪装成源码复现。"
-    : "复现链存在失败，请先查看 Failure Localization 定位矩阵。";
+    ? t("第三方可从 release 包重建核心物理引擎并复现 V32/V33/V34 的内部闭合。历史实验层被分离为注册清单，不伪装成源码复现。")
+    : t("复现链存在失败，请先查看 Failure Localization 定位矩阵。");
   $("#release-sha").textContent = data.release.archive_sha256;
   $("#archive-size").textContent = fmtBytes(data.release.archive_size_bytes);
   $("#file-count").textContent = String(data.manifest.file_count);
   $("#one-command").textContent = data.commands.one_command;
-  $("#guard-badges").innerHTML = data.boundaries.map((b) => `<span class="badge">${b}</span>`).join("");
+  $("#guard-badges").innerHTML = data.boundaries.map((b) => `<span class="badge" title="${esc(b)}">${esc(boundaryLabel(b))}</span>`).join("");
 }
 
 function renderTimeline() {
@@ -46,10 +51,10 @@ function renderTimeline() {
     <div class="phase">
       <div class="node"></div>
       <div>
-        <strong>${phase.phase}</strong>
+        <strong>${translatedId(phase.phase)}</strong>
         <span>${phase.started_at} → ${phase.finished_at}</span>
       </div>
-      <small>${phase.exit_code === 0 ? "PASS" : "FAIL"} · ${phase.duration_seconds ?? "?"}s</small>
+      <small>${t(phase.exit_code === 0 ? "PASS" : "FAIL")} · ${phase.duration_seconds ?? "?"}s</small>
     </div>
   `).join("");
 }
@@ -63,10 +68,10 @@ function renderLayers() {
   ];
   $("#layer-cards").innerHTML = cards.map((layer) => `
     <article class="layer-card">
-      <span class="pass-pill">${layer.passed ? "PASS" : "CHECK"}</span>
-      <h3>${displayId(layer.layer_id)}</h3>
-      <p>${layer.scope || layer.boundary || ""}</p>
-      <p><code>${layer.group}</code></p>
+      <span class="pass-pill">${t(layer.passed ? "PASS" : "CHECK")}</span>
+      <h3>${translatedId(layer.layer_id)}</h3>
+      <p>${esc(t(layer.scope || layer.boundary || ""))}</p>
+      <p><code>${translatedId(layer.group)}</code></p>
     </article>
   `).join("");
 }
@@ -75,23 +80,23 @@ function renderInventory() {
   const rows = data.inventory || [];
   const select = $("#inventory-layer");
   const layers = [...new Set(rows.map((r) => r.reproduction_layer))].sort();
-  select.innerHTML = `<option value="all">All layers</option>` + layers.map((l) => `<option value="${l}">${l}</option>`).join("");
+  select.innerHTML = `<option value="all">${t("All layers")}</option>` + layers.map((l) => `<option value="${esc(l)}">${esc(t(l))}</option>`).join("");
   const render = () => {
     const q = $("#inventory-search").value.toLowerCase();
     const layer = select.value;
     const filtered = rows.filter((r) => {
-      const hay = Object.values(r).join(" ").toLowerCase();
+      const hay = Object.values(r).flatMap(value => [value, t(value)]).join(" ").toLowerCase();
       return (layer === "all" || r.reproduction_layer === layer) && hay.includes(q);
     });
     $("#inventory-body").innerHTML = filtered.map((r) => `
       <tr>
-        <td><strong>${r.experiment_id}</strong><br><span>${r.book}</span></td>
-        <td><code>${r.reproduction_layer}</code></td>
-        <td>${r.status}</td>
-        <td>${r.closure_type}</td>
-        <td><code>${r.source_exists === "True" ? "source present" : "missing"}</code></td>
+        <td><strong>${translatedId(r.experiment_id)}</strong><br><span>${esc(r.book)}</span></td>
+        <td><code>${translatedId(r.reproduction_layer)}</code></td>
+        <td>${translatedId(r.status)}</td>
+        <td>${translatedId(r.closure_type)}</td>
+        <td><code>${t(r.source_exists === "True" ? "source present" : "missing")}</code></td>
       </tr>
-    `).join("");
+    `).join("") || `<tr><td colspan="5">${t("No matching experiments")}</td></tr>`;
   };
   $("#inventory-search").addEventListener("input", render);
   select.addEventListener("change", render);
@@ -100,13 +105,13 @@ function renderInventory() {
 
 function renderFailures() {
   const matrix = data.failure_matrix;
-  $("#failure-class").innerHTML = `<strong>${matrix.failure_class}</strong><br><span>${matrix.reason}</span>`;
+  $("#failure-class").innerHTML = `<strong>${esc(t(matrix.failure_class))}</strong><br><span>${esc(t(matrix.reason))}</span>`;
   $("#failure-categories").innerHTML = Object.entries(matrix.categories || {}).map(([name, desc]) => `
-    <div class="category"><strong>${name}</strong><span>${desc}</span></div>
+    <div class="category"><strong>${esc(t(name))}</strong><span>${esc(t(desc))}</span></div>
   `).join("");
   $("#boundary-list").innerHTML = data.boundaries.map((b) => {
     const [key, value] = b.split("=");
-    return `<div class="guard"><strong>${key}</strong><span>${value}</span></div>`;
+    return `<div class="guard"><strong>${translatedId(key)}</strong><span>${esc(t(value))}</span></div>`;
   }).join("");
 }
 

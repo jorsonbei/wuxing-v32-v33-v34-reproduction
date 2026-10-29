@@ -89,6 +89,11 @@ It proves that the frozen V32/V33/V34 reproduction chain can be rebuilt and rech
 
 ## Visual Dashboard
 
+- [中文版复演室](https://jorsonbei.github.io/wuxing-v32-v33-v34-reproduction/?lang=zh)
+- [English dashboard](https://jorsonbei.github.io/wuxing-v32-v33-v34-reproduction/?lang=en)
+
+The dashboard defaults to Chinese on a first visit. Use the 中文 / English switch to change language; the choice is remembered when browser storage is available. The `?lang=zh` and `?lang=en` links explicitly select a language. Translation changes presentation only: scientific data, raw identifiers, commands and verification results remain unchanged.
+
 The static dashboard in `dashboard/` can be opened locally:
 
 ```bash
